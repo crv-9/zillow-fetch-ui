@@ -55,7 +55,8 @@
           });
 
           if (res.ok) {
-            status.innerText = '✅ Zillow fetch triggered successfully!';
+            const data = await res.json();
+            status.innerText = `✅ ${data.message} — ${data.count} email(s) processed.`;
           } else {
             status.innerText = '⚠️ Trigger failed: ' + res.statusText;
           }
