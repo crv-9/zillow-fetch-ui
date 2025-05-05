@@ -40,39 +40,29 @@
   <script>
     async function triggerFetch() {
       const status = document.getElementById('status');
-      status.innerText = 'Waking up n8n...';
+      status.innerText = 'Waiting 45 seconds for n8n to wake up...';
 
-      try {
-        await fetch('https://n8n-imns.onrender.com/webhook/fetch-zillow', {
-          method: 'HEAD'
-        });
-        status.innerText = 'Waiting 45 seconds for n8n to fully wake up...';
+      setTimeout(async () => {
+        try {
+          const username = 'admin';
+          const password = 'fetchzillow123';
+          const credentials = btoa(`${username}:${password}`);
 
-        setTimeout(async () => {
-          try {
-            const username = 'admin';
-            const password = 'fetchzillow123';
-            const credentials = btoa(`${username}:${password}`);
-
-            const res = await fetch('https://n8n-imns.onrender.com/webhook/fetch-zillow', {
-              headers: {
-                'Authorization': `Basic ${credentials}`
-              }
-            });
-
-            if (res.ok) {
-              status.innerText = '✅ Zillow fetch triggered successfully!';
-            } else {
-              status.innerText = '⚠️ Trigger failed: ' + res.statusText;
+          const res = await fetch('https://n8n-imns.onrender.com/webhook/fetch-zillow', {
+            headers: {
+              'Authorization': `Basic ${credentials}`
             }
-          } catch (err) {
-            status.innerText = '❌ Error triggering webhook: ' + err;
-          }
-        }, 45000);
+          });
 
-      } catch (e) {
-        status.innerText = '❌ Error waking up n8n: ' + e;
-      }
+          if (res.ok) {
+            status.innerText = '✅ Zillow fetch triggered successfully!';
+          } else {
+            status.innerText = '⚠️ Trigger failed: ' + res.statusText;
+          }
+        } catch (err) {
+          status.innerText = '❌ Error triggering webhook: ' + err;
+        }
+      }, 45000);
     }
   </script>
 </body>
