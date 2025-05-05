@@ -43,7 +43,9 @@
       status.innerText = 'Waking up n8n...';
 
       try {
-        await fetch('https://n8n-imns.onrender.com/');
+        await fetch('https://n8n-imns.onrender.com/webhook/fetch-zillow', {
+          method: 'HEAD'
+        });
         status.innerText = 'Waiting 45 seconds for n8n to fully wake up...';
 
         setTimeout(async () => {
