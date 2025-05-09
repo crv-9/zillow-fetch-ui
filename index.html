@@ -40,7 +40,7 @@
   <script>
   async function triggerFetch() {
     const status = document.getElementById('status');
-    status.innerHTML = '⏳ Waiting 45 seconds for n8n to wake up...';
+    status.innerHTML = '⏳ Waiting 30 seconds for n8n to wake up...';
 
     setTimeout(async () => {
       try {
@@ -69,7 +69,7 @@
       } catch (err) {
         status.innerText = '❌ Error triggering webhook: ' + err;
       }
-    }, 45000);
+    }, 30000);
   }
 </script>
 
