@@ -38,33 +38,40 @@
   </div>
 
   <script>
-    async function triggerFetch() {
-      const status = document.getElementById('status');
-      status.innerText = 'Waiting 45 seconds for n8n to wake up...';
+  async function triggerFetch() {
+    const status = document.getElementById('status');
+    status.innerHTML = '⏳ Waiting 45 seconds for n8n to wake up...';
 
-      setTimeout(async () => {
-        try {
-          const username = 'admin';
-          const password = 'fetchzillow123';
-          const credentials = btoa(`${username}:${password}`);
+    setTimeout(async () => {
+      try {
+        const username = 'admin';
+        const password = 'fetchzillow123';
+        const credentials = btoa(`${username}:${password}`);
 
-          const res = await fetch('https://n8n-imns.onrender.com/webhook/fetch-zillow', {
-            headers: {
-              'Authorization': `Basic ${credentials}`
-            }
-          });
-
-          if (res.ok) {
-            const data = await res.json();
-            status.innerText = `✅ ${data.message} — ${data.count} email(s) processed.`;
-          } else {
-            status.innerText = '⚠️ Trigger failed: ' + res.statusText;
+        const res = await fetch('https://n8n-imns.onrender.com/webhook/fetch-zillow', {
+          headers: {
+            'Authorization': `Basic ${credentials}`
           }
-        } catch (err) {
-          status.innerText = '❌ Error triggering webhook: ' + err;
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+
+          status.innerHTML = `
+            <p><strong>✅ Summary:</strong> ${data.summary}</p>
+            <p><strong>Total Listings:</strong> ${data.total}</p>
+            <p><strong>Created:</strong> ${data.created}</p>
+            <p><strong>Updated:</strong> ${data.updated}</p>
+          `;
+        } else {
+          status.innerText = '⚠️ Trigger failed: ' + res.statusText;
         }
-      }, 45000);
-    }
-  </script>
+      } catch (err) {
+        status.innerText = '❌ Error triggering webhook: ' + err;
+      }
+    }, 45000);
+  }
+</script>
+
 </body>
 </html>
