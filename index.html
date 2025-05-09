@@ -57,8 +57,8 @@
         if (res.ok) {
           const data = await res.json();
 
-          status.innerHTML = 
-            <p><strong>Emails fetched:</strong> ${data.emailCount}</p>
+          status.innerHTML = `
+            <p><strong>Emails fetched:</strong> ${data.emails}</p>
             <p><strong>Listings processed:</strong> ${data.total}</p>
             <p><strong>Created:</strong> ${data.created}</p>
             <p><strong>Updated:</strong> ${data.updated}</p>
